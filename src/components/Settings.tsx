@@ -1,4 +1,4 @@
-import { FormRow, FormSwitch } from 'enmity/components';
+import { FormRow, FormSwitch, ScrollView, Text } from 'enmity/components';
 import { SettingsStore } from 'enmity/api/settings';
 import { React } from 'enmity/metro/common';
 
@@ -7,13 +7,19 @@ interface SettingsProps {
 }
 
 export default ({ settings }: SettingsProps) => {
-   return <FormRow
-      label='Example Setting'
-      trailing={
-         <FormSwitch
-            value={settings.get('example', true)}
-            onValueChange={() => settings.toggle('example', true)}
+   return (
+      <ScrollView>
+
+         <FormRow
+            label='Translate incoming messages'
+            trailing={
+               <FormSwitch
+                  value={settings.get('trans_in')}
+                  onValueChange={(value) => settings.set('trans_in', value)}
+               />
+            }
          />
-      }
-   />;
+      </ScrollView>);
 };
+
+

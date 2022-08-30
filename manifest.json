@@ -1,11 +1,12 @@
 {
-   "name": "SilentTyping",
+   "name": "enmity-translator",
    "version": "1.0.0",
-   "description": "Silences your typing indicator.",
-   "authors": [
-      {
-         "name": "eternal",
-         "id": "263689920210534400"
-      }
-   ]
+   "description": "Translate messages from different languages",
+   "authors": [{
+      "name": "KitsuneYokai",
+      "id": "356166857264332802"
+   }, {
+      "name": "Py why?",
+      "id": "153159188716060672"
+   }]
 }
