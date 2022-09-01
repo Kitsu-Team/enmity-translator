@@ -4,6 +4,8 @@ import { React } from 'enmity/metro/common';
 
 interface SettingsProps {
    settings: SettingsStore;
+   trans_in: boolean;
+   trans_out: boolean;
 }
 
 export default ({ settings }: SettingsProps) => {
@@ -19,6 +21,7 @@ export default ({ settings }: SettingsProps) => {
                />
             }
          />
+
       </ScrollView>);
 };
 
