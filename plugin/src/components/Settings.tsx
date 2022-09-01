@@ -1,6 +1,8 @@
-import { FormRow, FormSwitch, ScrollView, Text } from 'enmity/components';
+import { FormRow, FormSwitch, ScrollView, Text, View, FormCardSection } from 'enmity/components';
 import { SettingsStore } from 'enmity/api/settings';
-import { React } from 'enmity/metro/common';
+import { React, Theme } from 'enmity/metro/common';
+
+import { styles } from '../utils/styles';
 
 interface SettingsProps {
    settings: SettingsStore;
@@ -9,8 +11,13 @@ interface SettingsProps {
 }
 
 export default ({ settings }: SettingsProps) => {
+   console.log(Theme);
    return (
-      <ScrollView>
+      <View>
+         <FormCardSection>
+            <Text style={{ color: styles.text.color ,padding: 5}}>HI</Text>
+         </FormCardSection>
+         <ScrollView style={{height: '100vh'}}>
 
          <FormRow
             label='Translate incoming messages'
@@ -22,7 +29,6 @@ export default ({ settings }: SettingsProps) => {
             }
          />
 
-      </ScrollView>);
+      </ScrollView>
+      </View>)
 };
-
-

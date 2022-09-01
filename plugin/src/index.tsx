@@ -1,6 +1,6 @@
 import { Plugin, registerPlugin } from 'enmity/managers/plugins';
 import manifest from '../manifest.json';
-import { FormRow, FormSwitch, ScrollView, Text, Button } from 'enmity/components';
+import { FormRow, FormSwitch, ScrollView, Text, Button, Alert } from 'enmity/components';
 import { registerCommands } from "enmity/api/commands";
 import { React, Toasts } from 'enmity/metro/common';
 import { create } from 'enmity/patcher';
@@ -9,6 +9,9 @@ import { findInTree, findInReactTree } from 'enmity/utilities';
 import { getIDByName } from 'enmity/api/assets';
 
 import Settings from './components/Settings';
+
+// import translate function
+import { translateText } from './utils/translator';
 
 const [
    ActionSheets,
@@ -27,6 +30,7 @@ const Translator: Plugin = {
          if (sheet !== 'MessageLongPressActionSheet') return;
 
          component.then(instance => {
+            // TODO: check why its only working for the first time
             Patcher.after(instance, 'default', (_, [{ message }], res) => { 
                const origRender = res.type.render;
                res.type.render = function (...args) {
@@ -49,15 +53,15 @@ const Translator: Plugin = {
                            label='Translate Message'
                            leading={<FormRow.Icon source={getIDByName('ic_public')} />}
                            onPress={() => {
-                              alert('sorry PyWhy? i still have to do this :)\n- KitsuneYokai');
-                              console.log(res)
-                           }} />,
-                        <FormRow
-                              label='Translate Settings'
-                              leading={<FormRow.Icon source={getIDByName('ic_public')} />}
-                           onPress={(settings) => {
-                              return (<Settings settings={settings} trans_in={false} trans_out={false} />);
-                           }} />
+                              try {
+                                 // from - to - text - engine
+                                 console.log(message.content)
+                                 translateText('en','de',message.content, 'google')
+                              } catch (e) {
+                                 console.log(e);
+                              }
+                           }}
+                              />,
                         );
                   return res;
                };
