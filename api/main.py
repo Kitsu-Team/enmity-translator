@@ -50,7 +50,8 @@ async def translate():
     translated_json = JSONImport.dumps({
         "text": translated
     })
-
+    print("RAW: " + trans_text)
+    print("translated: " + translated_json)
     return translated_json
 
 if __name__ == '__main__':

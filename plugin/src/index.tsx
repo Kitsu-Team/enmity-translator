@@ -26,12 +26,14 @@ const Translator: Plugin = {
    ...manifest,
 
    onStart() {
-      const unpatchOpener = Patcher.before(ActionSheets, 'openLazy', (_, [component, sheet], res) => {
+      Patcher.before(ActionSheets, 'openLazy', (_, [component, sheet], res) => {
          if (sheet !== 'MessageLongPressActionSheet') return;
 
          component.then(instance => {
-            // TODO: check why its only working for the first time
-            Patcher.after(instance, 'default', (_, [{ message }], res) => { 
+            Patcher.after(instance, 'default', (_, [{ message }], res) => {
+               var test = message.content;
+               console.log(test)
+
                const origRender = res.type.render;
                res.type.render = function (...args) {
                   const res = origRender.apply(this, args);
@@ -54,25 +56,26 @@ const Translator: Plugin = {
                            leading={<FormRow.Icon source={getIDByName('ic_public')} />}
                            onPress={() => {
                               try {
+                                 console.log("content: ");
+                                 console.log(this);
+
                                  // from - to - text - engine
-                                 console.log(message.content)
-                                 translateText('en','de',message.content, 'google')
+                                 translateText('en', 'de', message.content, 'google')
                               } catch (e) {
                                  console.log(e);
                               }
                            }}
-                              />,
-                        );
+                        />,
+                     );
+                     return res;
+                  };
                   return res;
                };
-               return res;
-            };
+            });
          });
-         unpatchOpener();
-         });
-      }
-   );
-},
+         Patcher.unpatchAll();
+      });
+   },
 
    onStop() {
       Patcher.unpatchAll();
