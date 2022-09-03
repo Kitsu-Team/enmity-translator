@@ -1,4 +1,3 @@
-// todo make post request to the quart api 
 //    trans_from = json["trans_from"]
 //    trans_to = json["trans_to"]
 //    trans_text = json["trans_text"]
@@ -10,7 +9,7 @@
 //      ling = Linguee
 //      pons = PONS
 
-var url = "http://192.168.178.65:5000/translate"
+var url = "http://192.168.178.52:5000/translate"
 
 export function translateText(from, to, text, engine) {
     var json = {
