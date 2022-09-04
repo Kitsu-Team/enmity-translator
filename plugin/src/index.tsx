@@ -22,7 +22,7 @@ const Translator: Plugin = {
    },
 
    getSettingsPanel({ settings }) {
-      return <Settings settings={settings} trans_in={false} trans_out={false} />;
+      return <Settings settings={settings} />;
    }
 };
 

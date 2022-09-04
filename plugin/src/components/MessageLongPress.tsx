@@ -1,4 +1,5 @@
 import { FormRow } from 'enmity/components';
+
 import { React } from 'enmity/metro/common';
 import { create } from 'enmity/patcher';
 import { bulk, filters } from 'enmity/metro';
@@ -21,15 +22,11 @@ export function addTranslateToAction() {
 
     const unpatchOpener = Patcher.before(ActionSheets, 'openLazy', (_, [component, sheet], res) => {
         if (sheet !== 'MessageLongPressActionSheet') return;
-        // lg txt
-        console.log("1: " + txt)
 
         component.then(instance => {            
-            // TODO: check why its only working for the first time
             Patcher.after(instance, 'default', (_, [{ message }], res) => {
                 txt = message.content;
-                console.log("2: " + txt)
-                // set state TranslatorPLuginState
+
                 const origRender = res.type.render;
                 res.type.render = function (...args) {
                     const res = origRender.apply(this, args);
@@ -52,14 +49,13 @@ export function addTranslateToAction() {
                                 leading={<FormRow.Icon source={getIDByName('ic_public')} />}
                                 onPress={() => {
                                     try {
-                                        // lg txt
-                                        console.log("3: " + txt)
                                         translateText('en','de', txt, 'google')
                                     } catch (e) {
                                         console.log(e);
                                     }
                                 }}
                             />,
+                                
                         );
                     return res;
                     };

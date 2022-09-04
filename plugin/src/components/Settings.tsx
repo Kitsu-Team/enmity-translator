@@ -1,34 +1,41 @@
-import { FormRow, FormSwitch, ScrollView, Text, View, FormCardSection } from 'enmity/components';
+import { FormRow, FormSwitch, ScrollView, Text, FormSelect, FormCardSection } from 'enmity/components';
 import { SettingsStore } from 'enmity/api/settings';
-import { React, Theme } from 'enmity/metro/common';
-
+import { React } from 'enmity/metro/common';
 import { styles } from '../utils/styles';
 
 interface SettingsProps {
    settings: SettingsStore;
-   trans_in: boolean;
-   trans_out: boolean;
 }
 
 export default ({ settings }: SettingsProps) => {
-   console.log(Theme);
+   const options = [
+      { value: 'chocolate', label: 'Chocolate' },
+      { value: 'strawberry', label: 'Strawberry' },
+      { value: 'vanilla', label: 'Vanilla' }
+   ];
+
    return (
-      <View>
+      <ScrollView>
          <FormCardSection>
-            <Text style={{ color: styles.text.color ,padding: 5}}>HI</Text>
+            <Text style={{ color: styles.text.color, padding: 5 }}>HI</Text>
          </FormCardSection>
-         <ScrollView style={{height: '100vh'}}>
 
          <FormRow
             label='Translate incoming messages'
             trailing={
                <FormSwitch
-                  value={settings.get('trans_in')}
-                  onValueChange={(value) => settings.set('trans_in', value)}
+                  value={
+                     settings.get('trans_in')}
+                     onValueChange={(value) => {
+                        settings.set('trans_in', value);
+                        console.log("settings1: " + settings.get('trans_in'))
+                     }
+                  }
                />
             }
          />
-
+         <FormSelect
+         options={options}/>
       </ScrollView>
-      </View>)
+   )
 };

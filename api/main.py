@@ -1,12 +1,12 @@
 from flask import jsonify
 from quart import Quart, request
 import json as JSONImport
-from deep_translator import (GoogleTranslator, MyMemoryTranslator, PonsTranslator, LingueeTranslator,
-                             YandexTranslator)
-from decouple import config
+from deep_translator import GoogleTranslator, MyMemoryTranslator, PonsTranslator, LingueeTranslator
 
 
 app = Quart(__name__)
+
+# TODO: Add proxies
 
 
 @app.route('/translate', methods=['POST'])
@@ -50,8 +50,7 @@ async def translate():
     translated_json = JSONImport.dumps({
         "text": translated
     })
-    print("RAW: " + trans_text)
-    print("translated: " + translated_json)
+
     return translated_json
 
 if __name__ == '__main__':
