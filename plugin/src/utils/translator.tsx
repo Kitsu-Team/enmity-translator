@@ -9,17 +9,16 @@
 //      ling = Linguee
 //      pons = PONS
 
-var url = "http://192.168.178.52:5000/translate"
+export function translateText(from, to, text, engine, api) {
 
-export function translateText(from, to, text, engine) {
     var json = {
         trans_from: from,
         trans_to: to,
         trans_text: text,
-        trans_engine: engine
+        trans_engine: engine,
     }
 
-    fetch(url, {
+    fetch(api, {
         method: 'POST',
         body: JSON.stringify(json),
         headers: { 'Content-Type': 'application/json; charset=UTF-8' }

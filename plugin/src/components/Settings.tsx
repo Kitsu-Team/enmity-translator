@@ -1,41 +1,52 @@
-import { FormRow, FormSwitch, ScrollView, Text, FormSelect, FormCardSection } from 'enmity/components';
+import { FormRow, FormSwitch, ScrollView, Text, FormLabel, FormCardSection, FormCTAButton, TextInput } from 'enmity/components';
 import { SettingsStore } from 'enmity/api/settings';
 import { React } from 'enmity/metro/common';
 import { styles } from '../utils/styles';
 
-interface SettingsProps {
+export interface SettingsProps {
    settings: SettingsStore;
 }
 
 export default ({ settings }: SettingsProps) => {
-   const options = [
-      { value: 'chocolate', label: 'Chocolate' },
-      { value: 'strawberry', label: 'Strawberry' },
-      { value: 'vanilla', label: 'Vanilla' }
-   ];
 
    return (
       <ScrollView>
-         <FormCardSection>
-            <Text style={{ color: styles.text.color, padding: 5 }}>HI</Text>
-         </FormCardSection>
-
          <FormRow
-            label='Translate incoming messages'
-            trailing={
-               <FormSwitch
-                  value={
-                     settings.get('trans_in')}
-                     onValueChange={(value) => {
-                        settings.set('trans_in', value);
-                        console.log("settings1: " + settings.get('trans_in'))
-                     }
-                  }
-               />
-            }
+            label='Translate from:'
          />
-         <FormSelect
-         options={options}/>
+         <TextInput
+            style={{ margin: 10, borderRadius: 10, color: styles.text.color}}
+            placeholder="en"
+            value={settings.get("trans_settings_from")}
+            onChangeText={(text) => settings.set("trans_settings_from", text)}
+         />
+         <FormRow
+            label='Translate to:'
+         />
+         <TextInput
+            style={{ margin: 10, borderRadius: 10, color: styles.text.color, backgroundColor: styles.background.color }}
+            placeholder="de"
+            value={settings.get("trans_settings_to")}
+            onChangeText={(text) => settings.set("trans_settings_to", text)}
+         />
+         <FormRow
+            label='Translate engine:'
+         />
+         <TextInput
+            style={{ margin: 10, borderRadius: 10, color: styles.text.color, backgroundColor: styles.background.color }}
+            placeholder="google"
+            value={settings.get("trans_settings_engine")}
+            onChangeText={(text) => settings.set("trans_settings_engine", text)}
+         />
+         <FormRow
+            label='Translate API:'
+         />
+         <TextInput
+            style={{ margin: 10, borderRadius: 10, color: styles.text.color, backgroundColor: styles.background.color }}
+            placeholder="https://kitsu-team.dev/api/translate"
+            value={settings.get("trans_settings_api")}
+            onChangeText={(text) => settings.set("trans_settings_api", text)}
+         />
       </ScrollView>
    )
 };
