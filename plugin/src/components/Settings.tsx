@@ -12,12 +12,8 @@ export default ({ settings }: SettingsProps) => {
 
    if (settings.get("trans_settings_api") != null) {
       var apiOptionsJson = settings.get("trans_settings_api_options") ?? "error";
-      var engines = <FormSelect></FormSelect>
-      
-      for (var x in apiOptionsJson as any) {
-         console.log(apiOptionsJson[x].name)
-         // TODO: make engines selectable in a formselect
-      }
+      console.log(apiOptionsJson)
+      var engines = <FormSelect options={apiOptionsJson} onChange={(value) => settings.set("trans_settings_engine", value)} value={settings.get("trans_settings_engine")} noOptionsMessage={"Please connect to the api first"} />
    }
 
    return (
@@ -36,7 +32,7 @@ export default ({ settings }: SettingsProps) => {
             />
          </FormSection>
          <FormSection title="Engines:">
-            <Text> Here engine FormSelect </Text>
+            {engines}
          </FormSection>
       </ScrollView>
    );

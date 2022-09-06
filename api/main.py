@@ -21,19 +21,19 @@ def get_options():
 
     # add google translator
     res.append(
-        {"name": "google", "languages": googleTranslator.get_supported_languages(as_dict=True)})
+        {"value": "google", "label": "Google", "languages": googleTranslator.get_supported_languages(as_dict=True)})
 
     # add my memory translator
     res.append(
-        {"name": "myMemory", "languages": myMemoryTranslator.get_supported_languages(as_dict=True)})
+        {"value": "myMemory", "label": "MyMemory", "languages": myMemoryTranslator.get_supported_languages(as_dict=True)})
 
     # add pons translator
     res.append(
-        {"name": "pons", "languages": ponsTranslator.get_supported_languages(as_dict=True)})
+        {"value": "pons", "label": "Pons", "languages": ponsTranslator.get_supported_languages(as_dict=True)})
 
     # add linguee translator
     res.append(
-        {"name": "linguee", "languages": lingueeTranslator.get_supported_languages(as_dict=True)})
+        {"value": "linguee", "label": "Linguee", "languages": lingueeTranslator.get_supported_languages(as_dict=True)})
 
     return JSONImport.dumps(res)
 
