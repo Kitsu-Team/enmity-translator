@@ -18,7 +18,7 @@ export function translateText(from, to, text, engine, api) {
         trans_engine: engine,
     }
 
-    fetch(api, {
+    fetch(api + "/translate", {
         method: 'POST',
         body: JSON.stringify(json),
         headers: { 'Content-Type': 'application/json; charset=UTF-8' }

@@ -17,24 +17,29 @@ lingueeTranslator = LingueeTranslator(source="de", target="en")
 @app.route("/get_options", methods=["GET"])
 def get_options():
     # return all languages that are supported by the API
-    responseJson = {}
+    res = []
 
-    responseJson["google"] = googleTranslator.get_supported_languages(
-        as_dict=True)
-    responseJson["google"].update({"auto": "auto"})
+    # add google translator
+    res.append(
+        {"name": "google", "languages": googleTranslator.get_supported_languages(as_dict=True)})
 
-    responseJson["mymemory"] = myMemoryTranslator.get_supported_languages(
-        as_dict=True)
-    responseJson["mymemory"].update({"auto": "auto"})
+    # add my memory translator
+    res.append(
+        {"name": "myMemory", "languages": myMemoryTranslator.get_supported_languages(as_dict=True)})
 
-    responseJson["pons"] = ponsTranslator.get_supported_languages(as_dict=True)
+    # add pons translator
+    res.append(
+        {"name": "pons", "languages": ponsTranslator.get_supported_languages(as_dict=True)})
 
-    responseJson["linguee"] = lingueeTranslator.get_supported_languages(
-        as_dict=True)
-    return JSONImport.dumps(responseJson)
+    # add linguee translator
+    res.append(
+        {"name": "linguee", "languages": lingueeTranslator.get_supported_languages(as_dict=True)})
 
+    return JSONImport.dumps(res)
 
 # route to translate the discord message
+
+
 @app.route('/translate', methods=['POST'])
 async def translate():
     # get the data from the reustes json
