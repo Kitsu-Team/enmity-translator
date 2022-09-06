@@ -1,18 +1,44 @@
-from flask import jsonify
 from quart import Quart, request
 import json as JSONImport
 from deep_translator import GoogleTranslator, MyMemoryTranslator, PonsTranslator, LingueeTranslator
 
-
 app = Quart(__name__)
 
-# TODO: Add proxies
+# TODO: add proxies
+
+# Define all translators
+googleTranslator = GoogleTranslator(source="auto", target="en")
+myMemoryTranslator = MyMemoryTranslator(source="auto", target="en")
+ponsTranslator = PonsTranslator(source="de", target="en")
+lingueeTranslator = LingueeTranslator(source="de", target="en")
 
 
+# route to get all translator engines + the supported languages
+@app.route("/get_options", methods=["GET"])
+def get_options():
+    # return all languages that are supported by the API
+    responseJson = {}
+
+    responseJson["google"] = googleTranslator.get_supported_languages(
+        as_dict=True)
+    responseJson["google"].update({"auto": "auto"})
+
+    responseJson["mymemory"] = myMemoryTranslator.get_supported_languages(
+        as_dict=True)
+    responseJson["mymemory"].update({"auto": "auto"})
+
+    responseJson["pons"] = ponsTranslator.get_supported_languages(as_dict=True)
+
+    responseJson["linguee"] = lingueeTranslator.get_supported_languages(
+        as_dict=True)
+    return JSONImport.dumps(responseJson)
+
+
+# route to translate the discord message
 @app.route('/translate', methods=['POST'])
 async def translate():
-    json = await request.json
     # get the data from the reustes json
+    json = await request.json
     trans_from = json["trans_from"]
     trans_to = json["trans_to"]
     trans_text = json["trans_text"]
@@ -21,37 +47,43 @@ async def translate():
     # Google translator
     if trans_engine == "google":
         if trans_from == "auto":
-            translated = GoogleTranslator(
-                source='auto', target=trans_to).translate(text=trans_text)
+            googleTranslator.source = "auto"
+            googleTranslator.target = trans_to
+            translated = googleTranslator.translate(text=trans_text)
         elif trans_from != "auto":
-            translated = GoogleTranslator(
-                source=trans_from, target=trans_to).translate(text=trans_text)
+            googleTranslator.source = trans_from
+            googleTranslator.target = trans_to
+            translated = googleTranslator.translate(text=trans_text)
 
     # MyMemory Translator
-    elif trans_engine == "mymem":
+    elif trans_engine == "mymemory":
         if trans_from == "auto":
-            translated = MyMemoryTranslator(
-                source='auto', target=trans_to).translate(text=trans_text)
+            myMemoryTranslator.source = "auto"
+            myMemoryTranslator.target = trans_to
+            translated = myMemoryTranslator.translate(text=trans_text)
         elif trans_from != "auto":
-            translated = MyMemoryTranslator(
-                source=trans_from, target=trans_to).translate(text=trans_text)
-
-    # Linguee Translator
-    elif trans_engine == "ling":
-        translated = LingueeTranslator(
-            source=trans_from, target=trans_to).translate(text=trans_text)
+            myMemoryTranslator.source = trans_from
+            myMemoryTranslator.target = trans_to
+            translated = myMemoryTranslator.translate(text=trans_text)
 
     # PONS Translator
     elif trans_engine == "pons":
-        translated = PonsTranslator(
-            source=trans_from, target=trans_to).translate(trans_text)
+        ponsTranslator.source = trans_from
+        ponsTranslator.target = trans_to
+        translated = ponsTranslator.translate(text=trans_text)
+
+    # Linguee Translator
+    elif trans_engine == "linguee":
+        lingueeTranslator.source = trans_from
+        lingueeTranslator.target = trans_to
+        translated = lingueeTranslator.translate(text=trans_text)
 
     # respond JSON
-    translated_json = JSONImport.dumps({
+    translated_json = {
         "text": translated
-    })
+    }
 
-    return translated_json
+    return JSONImport.dumps(translated_json)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
