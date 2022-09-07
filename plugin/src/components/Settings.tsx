@@ -1,5 +1,5 @@
 import { FormRow, FormSwitch, FormSection, ScrollView, Text, FormLabel, FormCardSection, FormCTAButton, TextInput, FormDivider, FormSelect, Form, Button } from 'enmity/components';
-import { SettingsStore } from 'enmity/api/settings';
+import { Serializable, SettingsStore } from 'enmity/api/settings';
 import { React } from 'enmity/metro/common';
 import { styles } from '../utils/styles';
 
@@ -9,20 +9,33 @@ export interface SettingsProps {
 }
 
 export default ({ settings }: SettingsProps) => {
+   var apiOptions = settings.get("trans_settings_api_options") ?? [];
+   var engines = <><FormSection title={"Engine: " + settings.get("trans_settings_engine") ?? ""}><FormSelect options={apiOptions} onChange={(value) => settings.set("trans_settings_engine", value)} value={settings.get("trans_settings_engine")} /></FormSection></>
 
-   if (settings.get("trans_settings_api") != null) {
-      var apiOptionsJson = settings.get("trans_settings_api_options") ?? "error";
-      console.log(apiOptionsJson)
-      var engines = <FormSelect options={apiOptionsJson} onChange={(value) => settings.set("trans_settings_engine", value)} value={settings.get("trans_settings_engine")} noOptionsMessage={"Please connect to the api first"} />
+   for (var x in apiOptions as String) {
+      if (apiOptions[x]["value"] == settings.get("trans_settings_engine")) {
+         var engineLangFrom = apiOptions[x]["languages"]
+      }
    }
 
-   return (
+   var transFrom = <><FormSection title={"Translate From: " + settings.get("trans_settings_from") ?? ""}><FormSelect options={engineLangFrom} onChange={(value) => settings.set("trans_settings_from", value)} value={settings.get("trans_settings_from")} /></FormSection></>
+   // remove AUTO from engineLangFrom
+   let engineLangTo = [] as any
+   for (var x in engineLangFrom) {
+      if (engineLangFrom[x]["value"] != "auto") {
+         // add to engineLangTo
+         engineLangTo.push(engineLangFrom[x])
+      }
+   }
+   var transTo = <><FormSection title={"Translate To: " + settings.get("trans_settings_to") ?? ""}><FormSelect options={engineLangTo} onChange={(value) => settings.set("trans_settings_to", value)} value={settings.get("trans_settings_to")} /></FormSection></>
+
+   return(
       <ScrollView>
          <FormSection title="API URL:">
             <TextInput
                keyboardType={"url"}
                autoCorrect={false}
-               style={{ padding: 10, color: styles.text.color}}
+               style={{ padding: 10, color: styles.text.color }}
                placeholder="https://kitsu-team.dev/enmity-translate-api"
                value={settings.get("trans_settings_api")}
                onChangeText={(text) => settings.set("trans_settings_api", text)}
@@ -31,9 +44,9 @@ export default ({ settings }: SettingsProps) => {
                }
             />
          </FormSection>
-         <FormSection title="Engines:">
-            {engines}
-         </FormSection>
+         {engines}
+         {transFrom}
+         {transTo}
       </ScrollView>
    );
 };

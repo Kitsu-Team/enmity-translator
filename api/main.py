@@ -20,20 +20,34 @@ def get_options():
     res = []
 
     # add google translator
-    res.append(
-        {"value": "google", "label": "Google", "languages": googleTranslator.get_supported_languages(as_dict=True)})
+    googleLang = googleTranslator.get_supported_languages(as_dict=True)
+    googleJson = {"value": "google", "label": "Google",
+                  "languages": [{"value": "auto", "label": "Auto"}]}
+    for key, values in googleLang.items():
+        googleJson["languages"].append({"value": values, "label": key})
+    res.append(googleJson)
 
     # add my memory translator
-    res.append(
-        {"value": "myMemory", "label": "MyMemory", "languages": myMemoryTranslator.get_supported_languages(as_dict=True)})
+    myMemoryLang = myMemoryTranslator.get_supported_languages(as_dict=True)
+    myMemoryJson = {"value": "myMemory", "label": "MyMemory",
+                    "languages": [{"value": "auto", "label": "Auto"}]}
+    for keys, values in myMemoryLang.items():
+        myMemoryJson["languages"].append({"value": values, "label": key})
+    res.append(myMemoryJson)
 
     # add pons translator
-    res.append(
-        {"value": "pons", "label": "Pons", "languages": ponsTranslator.get_supported_languages(as_dict=True)})
+    ponsLang = ponsTranslator.get_supported_languages(as_dict=True)
+    ponsJson = {"value": "pons", "label": "Pons", "languages": []}
+    for keys, values in ponsLang.items():
+        ponsJson["languages"].append({"value": values, "label": key})
+    res.append(ponsJson)
 
     # add linguee translator
-    res.append(
-        {"value": "linguee", "label": "Linguee", "languages": lingueeTranslator.get_supported_languages(as_dict=True)})
+    lingueeLang = lingueeTranslator.get_supported_languages(as_dict=True)
+    lingueeJson = {"value": "linguee", "label": "Linguee", "languages": []}
+    for keys, values in lingueeLang.items():
+        lingueeJson["languages"].append({"value": values, "label": key})
+    res.append(lingueeJson)
 
     return JSONImport.dumps(res)
 

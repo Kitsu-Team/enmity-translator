@@ -9,7 +9,7 @@ import { create } from 'enmity/patcher';
 import { bulk, filters } from 'enmity/metro';
 import { findInTree, findInReactTree } from 'enmity/utilities';
 import { getIDByName } from 'enmity/api/assets';
-import { get } from 'enmity/api/settings';
+import { get, set } from 'enmity/api/settings';
 
 import { translateText } from './utils/translator';
 
@@ -24,7 +24,6 @@ const Patcher = create('translator');
 
 const Translator: Plugin = {
    ...manifest,
-
 
    onStart() {
       let txt = ""
