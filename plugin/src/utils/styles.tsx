@@ -4,7 +4,8 @@ export const styles = StyleSheet.createThemedStyleSheet({
     text: {
         color: Constants.ThemeColorMap.TEXT_NORMAL,
     },
-    background: {
-        color: Constants.ThemeColorMap.BACKGROUND_COLOR
-    }
+    button: {
+        backgroundColor: Constants.ThemeColorMap.BUTTON_NORMAL,
+        color: Constants.ThemeColorMap.TEXT_NORMAL,
+    },
 });

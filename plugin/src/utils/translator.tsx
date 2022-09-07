@@ -30,5 +30,5 @@ export function translateText(from, to, text, engine, api) {
             alert(json["text"])
             return json
         })
-        .catch(error => alert("Error: " + error + "\n" + "Try selectiong a different translate engine (Google, MyMemory, Linguee, PONS)"));
+        .catch(error => alert("Error: " + error + "\n" + "There was an error translating your text. Please check your settings and try again."));
 };

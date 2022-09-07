@@ -9,9 +9,10 @@ export interface SettingsProps {
 }
 
 export default ({ settings }: SettingsProps) => {
-   var apiOptions = settings.get("trans_settings_api_options") ?? [];
-   var engines = <><FormSection title={"Engine: " + settings.get("trans_settings_engine") ?? ""}><FormSelect options={apiOptions} onChange={(value) => settings.set("trans_settings_engine", value)} value={settings.get("trans_settings_engine")} /></FormSection></>
 
+   var apiOptions = settings.get("trans_settings_api_options") ?? [];
+   var engines = <><FormSection title={"Engine: " + settings.get("trans_settings_engine") ?? ""}><FormSelect options={apiOptions} onChange={(value) => { settings.set("trans_settings_from", null); settings.set("trans_settings_to", null); settings.set("trans_settings_engine", value)}} value={settings.get("trans_settings_engine")} /></FormSection></>
+   // get lang
    for (var x in apiOptions as String) {
       if (apiOptions[x]["value"] == settings.get("trans_settings_engine")) {
          var engineLangFrom = apiOptions[x]["languages"]
@@ -36,17 +37,37 @@ export default ({ settings }: SettingsProps) => {
                keyboardType={"url"}
                autoCorrect={false}
                style={{ padding: 10, color: styles.text.color }}
-               placeholder="https://kitsu-team.dev/enmity-translate-api"
+               placeholder="https://kitsu-team.dev/api/enmity-translate-api"
                value={settings.get("trans_settings_api")}
                onChangeText={(text) => settings.set("trans_settings_api", text)}
-               onEndEditing={() => 
+               onEndEditing={() => {
+                  settings.set("trans_settings_api_options", null)
+                  settings.set("trans_settings_engine", null);
+                  settings.set("trans_settings_from", null);
+                  settings.set("trans_settings_to", null);
                   get_options(settings.get("trans_settings_api"))
+                  }
                }
             />
+
+            <Button
+               style={{backgroundColor: styles.button.backgroundColor, color: styles.button.color }}
+               title="Use public API"
+               onPress={() => {
+               settings.set("trans_settings_api", "https://kitsu-team.dev/api/enmity-translate-api")
+               settings.set("trans_settings_api_options", null)
+               settings.set("trans_settings_engine", null);
+               settings.set("trans_settings_from", null);
+               settings.set("trans_settings_to", null);
+               get_options(settings.get("trans_settings_api"))
+            }}
+            />
+
          </FormSection>
          {engines}
          {transFrom}
          {transTo}
+         
       </ScrollView>
    );
 };

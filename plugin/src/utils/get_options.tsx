@@ -12,6 +12,6 @@ export function get_options(api) {
         });
     } catch (error) {
         alert("The api isn't available or the url is wrong");
-        set("enmity-translator", "trans_settings_api_options", "error")
+        set("enmity-translator", "trans_settings_api_options", null)
     }
 };
