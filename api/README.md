@@ -14,17 +14,8 @@ TODO: write this after im 100% done with the api :P
 ### START
 `hypercorn main:app --workers 6 -b 0.0.0.0:5000`
 
+
 **The plug-in:** https://ftp.kitsu-team.dev/enmity-translator.js
 **GitHub:** <https://github.com/Kitsu-Team/enmity-translator>
 **Public API endpoint:** `https://kitsu-team.dev/api/translate`
 
-**Translate engines:**
-```
-google = Google
-mymem = MyMemory 
-ling = Linguee
-pons = PONS
-```
-
-In the Settings you can also set `translate From` to `auto`, to detect the lenguage of the text you want to translate.
-This only works with the `google` and the `mymem` translate engine atm.

@@ -23,8 +23,8 @@ def get_options():
     googleLang = googleTranslator.get_supported_languages(as_dict=True)
     googleJson = {"value": "google", "label": "Google",
                   "languages": [{"value": "auto", "label": "Auto"}]}
-    for key, values in googleLang.items():
-        googleJson["languages"].append({"value": values, "label": key})
+    for keys, values in googleLang.items():
+        googleJson["languages"].append({"value": values, "label": keys})
     res.append(googleJson)
 
     # add my memory translator
@@ -32,21 +32,21 @@ def get_options():
     myMemoryJson = {"value": "myMemory", "label": "MyMemory",
                     "languages": [{"value": "auto", "label": "Auto"}]}
     for keys, values in myMemoryLang.items():
-        myMemoryJson["languages"].append({"value": values, "label": key})
+        myMemoryJson["languages"].append({"value": values, "label": keys})
     res.append(myMemoryJson)
 
     # add pons translator
     ponsLang = ponsTranslator.get_supported_languages(as_dict=True)
     ponsJson = {"value": "pons", "label": "Pons", "languages": []}
     for keys, values in ponsLang.items():
-        ponsJson["languages"].append({"value": values, "label": key})
+        ponsJson["languages"].append({"value": keys, "label": values})
     res.append(ponsJson)
 
     # add linguee translator
     lingueeLang = lingueeTranslator.get_supported_languages(as_dict=True)
     lingueeJson = {"value": "linguee", "label": "Linguee", "languages": []}
     for keys, values in lingueeLang.items():
-        lingueeJson["languages"].append({"value": values, "label": key})
+        lingueeJson["languages"].append({"value": values, "label": keys})
     res.append(lingueeJson)
 
     return JSONImport.dumps(res)

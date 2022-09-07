@@ -1,0 +1,9 @@
+# API
+__pycache__/
+
+# Plugin
+dist/
+node_modules/
+
+# misselanious
+*.DS_Store
