@@ -67,7 +67,6 @@ export default ({ settings }: SettingsProps) => {
          {engines}
          {transFrom}
          {transTo}
-         
       </ScrollView>
    );
 };

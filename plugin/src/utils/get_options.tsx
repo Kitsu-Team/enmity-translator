@@ -7,7 +7,7 @@ export function get_options(api) {
         fetch(api + "/get_options")
         .then((response) => response.json())
             .then((data) => {
-            alert("You successfully connected to the API!\n You can now select the languages and engines you want to use.\n \n Happy translating! \n - KitsuTeam");
+            alert("You successfully connected to the API!\n You can now select the languages and engines you want to use.\n \n Happy translating! \n \n - KitsuTeam");
             set("enmity-translator", "trans_settings_api_options", data)
         });
     } catch (error) {

@@ -10,8 +10,10 @@ import { bulk, filters } from 'enmity/metro';
 import { findInTree, findInReactTree } from 'enmity/utilities';
 import { getIDByName } from 'enmity/api/assets';
 import { get, set } from 'enmity/api/settings';
+import { registerCommands } from 'enmity/api/commands'
 
 import { translateText } from './utils/translator';
+import { transCmd } from './utils/translateCommand';
 
 const [
    ActionSheets,
@@ -20,12 +22,13 @@ const [
 );
 
 const Patcher = create('translator');
-// translatePatch
 
 const Translator: Plugin = {
    ...manifest,
 
    onStart() {
+      registerCommands("trans", [transCmd])
+
       let txt = ""
       const unpatchOpener = Patcher.before(ActionSheets, 'openLazy', (_, [component, sheet], res) => {
          if (sheet !== 'MessageLongPressActionSheet') return;
@@ -84,6 +87,8 @@ const Translator: Plugin = {
    },
 
    onStop() {
+      Patcher.unpatchAll();
+      this.commands = [];
    },
 
    getSettingsPanel({ settings }) {

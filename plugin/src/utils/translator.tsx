@@ -1,13 +1,3 @@
-//    trans_from = json["trans_from"]
-//    trans_to = json["trans_to"]
-//    trans_text = json["trans_text"]
-//    trans_engine = json["trans_engine"]
-
-//    Translation Engines
-//      google = Google
-//      mymem = MyMemory 
-//      ling = Linguee
-//      pons = PONS
 
 export function translateText(from, to, text, engine, api) {
 
@@ -26,9 +16,7 @@ export function translateText(from, to, text, engine, api) {
     // return json
         .then(res => res.json())
         .then(json => {
-            // TODO: patch original message with translated text
             alert(json["text"])
-            return json
         })
         .catch(error => alert("Error: " + error + "\n" + "There was an error translating your text. Please check your settings and try again."));
 };
