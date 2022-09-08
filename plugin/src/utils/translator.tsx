@@ -1,6 +1,5 @@
 
 export function translateText(from, to, text, engine, api) {
-
     var json = {
         trans_from: from,
         trans_to: to,
@@ -16,7 +15,8 @@ export function translateText(from, to, text, engine, api) {
     // return json
         .then(res => res.json())
         .then(json => {
-            alert(json["text"])
+            var trabslated = json;
+            return trabslated
         })
         .catch(error => alert("Error: " + error + "\n" + "There was an error translating your text. Please check your settings and try again."));
 };
