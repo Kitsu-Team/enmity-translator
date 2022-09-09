@@ -1,3 +1,5 @@
+// function export as void
+
 
 export function translateText(from, to, text, engine, api) {
     var json = {

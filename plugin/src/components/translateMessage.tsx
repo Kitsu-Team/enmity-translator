@@ -47,23 +47,34 @@ export function translateMessagePatcher() {
                         <ButtonRow
                             key="69"
                             onPressRow={(_) => {
+                                // TODO: error handling
                                 let from = get("enmity-translator", "trans_settings_from");
                                 let to = get("enmity-translator", "trans_settings_to");
-                                let text = message.content;
                                 let engine = get("enmity-translator", "trans_settings_engine");
                                 let api = get("enmity-translator", "trans_settings_api");
-
-                                let translatedMessage = translateText(from, to, text, engine, api)
-                                console.log(translatedMessage)
-
-                                Opener.hideActionSheet();
-                                Messages.updateEditMessage(
-                                    `dirty-${channel.id}`,
-                                    message.id,
-                                    message.content = "HI"
-                                );
+                                    var json = {
+                                        trans_from: from,
+                                        trans_to: to,
+                                        trans_text: message.content,
+                                        trans_engine: engine,
+                                    }
+                                    fetch(api + "/translate", {
+                                        method: 'POST',
+                                        body: JSON.stringify(json),
+                                        headers: { 'Content-Type': 'application/json; charset=UTF-8' }
+                                    })
+                                    .then(res => res.json())
+                                        .then(json => {
+                                            Opener.hideActionSheet();
+                                            Messages.startEditMessage(
+                                                `dirty-${channel.id}`,
+                                                message.id,
+                                                message.content,
+                                                json["text"]
+                                            );
+                                        })
                             }}
-                            message="Spoof edit"
+                            message="Translate Message"
                             iconSource={Assets.getIDByName("ic_message_retry")}
                         />
                     );
@@ -76,8 +87,12 @@ export function translateMessagePatcher() {
         }
     });
 
-    Patcher.before(Messages, "updateEditMessage", (a0, a1, a2) => {
+    Patcher.before(Messages, "startEditMessage", (a0, a1, a2) => {
         if (a1[0].startsWith("dirty-")) {
+            
+            console.log("a3: " + a1[3])
+            a1[2] = a1[3];
+
             a1[0] = a1[0].replace("dirty-", "");
             dirtyEdit = true;
         } else {
