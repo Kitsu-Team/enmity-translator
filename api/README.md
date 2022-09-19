@@ -13,14 +13,3 @@ TODO: write this after im 100% done with the api :P
 
 ### START
 `hypercorn main:app --workers 6 -b 0.0.0.0:5000`
-
-
-Hey :wave: 
-there were sum updates on the translator + api.
-If you want to use it again you have to update the plugin & api url.
-
-**The plug-in:** https://ftp.kitsu-team.dev/enmity-translator-stable.js
-**GitHub:** <https://github.com/Kitsu-Team/enmity-translator>
-**Public API endpoint:** `https://kitsu-team.dev/api/enmity-translate-api`
-
-Happy Translating, and thanks for testing :D
